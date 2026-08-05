@@ -1,0 +1,73 @@
+.summary-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:24px;
+
+    margin:35px 0;
+
+}
+
+.summary-card{
+
+    background:white;
+
+    border-radius:16px;
+
+    padding:24px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+    border-top:4px solid #d4af37;
+
+    transition:.25s;
+
+}
+
+.summary-card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 15px 30px rgba(0,0,0,.12);
+
+}
+
+.summary-title{
+
+    color:#7b8794;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    margin-bottom:18px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.08em;
+
+}
+
+.summary-value{
+
+    font-size:38px;
+
+    font-weight:700;
+
+    color:#13203a;
+
+}
+
+.warning{
+
+    color:#d97706;
+
+}
+
+.danger{
+
+    color:#dc2626;
+
+}

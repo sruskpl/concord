@@ -1,6 +1,7 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 from datetime import datetime, date
 from decimal import Decimal
+from models import ExceptionStatus, SessionStatus, AuditAction, UserRole
 
 class UserCreate(BaseModel):
     employee_id: str
@@ -13,14 +14,22 @@ class UserLogin(BaseModel):
     password: str
 
 class UserResponse(BaseModel):
-    id: int
+
     employee_id: str
+
     full_name: str
-    role: str
+
+    email: str
+
+    role: UserRole
+
     created_at: datetime
-    model_config = {
-        "from_attributes": True
-    }
+
+    last_login: datetime | None
+
+    model_config = ConfigDict(
+        from_attributes=True
+    )
 
 class Token(BaseModel):
     access_token: str
@@ -38,3 +47,52 @@ class UploadResponse(BaseModel):
     message: str
     valid_rows: int
     invalid_rows: int
+
+class ExceptionCommentCreate(BaseModel):
+    comment:str
+
+class ExceptionResponse(BaseModel):
+
+    id: int
+    exception_type: str
+    severity: str
+    status: str
+    description: str
+
+    model_config = {
+        "from_attributes": True
+    }
+
+class ExceptionStatusUpdate(BaseModel):
+    status: ExceptionStatus
+
+class SessionStartResponse(BaseModel):
+    message: str
+    session_id: int
+    business_date: date
+    status: str
+
+class Config:
+    from_attributes = True
+
+class AuditLogResponse(BaseModel):
+    id: int
+    created_by: str
+    action: AuditAction
+    description: str
+    created_at: datetime
+    model_config = ConfigDict(from_attributes = True)  
+
+class SessionResponse(BaseModel):
+
+    id: int
+
+    business_date: date
+
+    status: SessionStatus
+
+    matched_transactions: int
+
+    exception_count: int
+
+    model_config = ConfigDict(from_attributes=True)     

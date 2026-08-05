@@ -1,0 +1,43 @@
+.dashboard-section{
+
+    margin-top:40px;
+
+}
+
+.section-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+}
+
+.section-header h2{
+
+    color:#0F1D2F;
+
+    font-size:32px;
+
+}
+
+.view-all-btn{
+
+    color:#C8A227;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    transition:.25s;
+
+}
+
+.view-all-btn:hover{
+
+    color:#B38F1E;
+
+}

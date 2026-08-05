@@ -1,6 +1,6 @@
 .hero{
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.35)0%, rgba(0, 0, 0, 0.15)40%, rgba(0, 0, 0, 0.5)100%);
-    background-image: url(concord\ background\ image\ 1.png);
+    background-image: url("images/concord background image 1.png");
     background-size: 100% 100%;
     height: 100vh;
     width: 100%;
@@ -97,19 +97,13 @@
 #tagline p{
     margin: 0;
 }
-#login{
-    display: none;
-}
-#register{
-    display: flex;
-}
 .auth-page{
     background:
         linear-gradient(
             rgba(8,15,30,0.55),
             rgba(8,15,30,0.55)
         );
-    background-image: url(concord\ background\ image\ 2.png);
+    background-image: url("images/concord background image 2.png");
     display:flex;
     flex-direction: column;
     justify-content:center;
@@ -134,8 +128,8 @@
     box-shadow: 0 20px 60px rgba(0,0,0,0.35);
 }
 #register,
-#login
-{
+#login{
+    display: flex;
     flex-direction: column;
     justify-content: center;
     width: 75%;

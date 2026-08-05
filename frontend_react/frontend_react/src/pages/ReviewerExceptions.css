@@ -1,0 +1,47 @@
+.page-title{
+
+    font-size:42px;
+
+    color:#0D1B2A;
+
+    margin-bottom:28px;
+
+}
+
+.filters{
+
+    display:flex;
+
+    gap:18px;
+
+    margin-bottom:28px;
+
+}
+
+.filters input{
+
+    width:320px;
+
+    padding:14px 18px;
+
+    border-radius:12px;
+
+    border:1px solid #d7dce2;
+
+    font-size:16px;
+
+}
+
+.filters select{
+
+    padding:14px 18px;
+
+    border-radius:12px;
+
+    border:1px solid #d7dce2;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+}

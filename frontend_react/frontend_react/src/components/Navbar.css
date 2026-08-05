@@ -1,0 +1,31 @@
+.navbar{
+    height:72px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:28px;
+    background:#010c27e7;
+    color:white;
+    border-bottom:2.5px solid #d4af37;
+}
+
+.navbar-logo{
+    font-size:34px;
+    font-weight:700;
+    letter-spacing:1px;
+    font-family: "Playfair diplay", serif;
+    color:white;
+}
+
+.navbar-divider{
+    width:1.8px;
+    height:36px;
+    background:#d4af37;
+}
+
+.navbar-title{
+    font-size:22px;
+    font-weight:450;
+    letter-spacing:.5px;
+    color:#f6f6f6;
+}

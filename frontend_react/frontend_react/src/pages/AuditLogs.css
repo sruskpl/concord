@@ -1,0 +1,41 @@
+.audit-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-top:30px;
+
+    background:white;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+}
+
+.audit-table th{
+
+    background:#0D1B2A;
+
+    color:white;
+
+    text-align:left;
+
+    padding:18px;
+
+}
+
+.audit-table td{
+
+    padding:16px;
+
+    border-bottom:1px solid #ececec;
+
+}
+
+.audit-table tr:hover{
+
+    background:#f8fafc;
+
+}
