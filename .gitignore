@@ -1,14 +1,24 @@
+# Python
 venv/
 __pycache__/
 *.pyc
 
+# Environment variables
 .env
 
+# IDE
 .idea/
 .vscode/
 
+# Testing
 .pytest_cache/
 
+# Database files
 *.db
 
+# Node / React
+node_modules/
+dist/
+
+# OS files
 .DS_Store
