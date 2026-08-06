@@ -16,7 +16,7 @@ function Home() {
         </div>
         <h1 id="welcome">Concord</h1>
         <h2 id="sub-title">
-            Enterprise Reconciliation Platform  
+            Financial Reconciliation Platform  
         </h2>
         <div id="tagline">
             <p>Reconcile with confidence.</p>

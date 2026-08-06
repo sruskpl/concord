@@ -28,7 +28,7 @@ function Concord() {
                     Concord streamlines reconciliation by bringing transactions, validation, and exception management into one unified workspace.</p>
                 </section>
                 <section className="info-card">
-                    <h2>Enterprise-grade workflow</h2>
+                    <h2>Workflow</h2>
                     <ul>
                         <li>Secure authentication and protected access</li>
                         <li>Centralized reconciliation sessions</li>

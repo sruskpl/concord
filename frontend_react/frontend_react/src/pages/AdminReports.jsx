@@ -63,7 +63,7 @@ function AdminReports() {
 
                 <p>
 
-                    Enterprise reconciliation overview
+                    Financial reconciliation overview
 
                 </p>
 

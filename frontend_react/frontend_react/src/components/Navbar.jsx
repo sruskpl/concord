@@ -11,7 +11,7 @@ function Navbar() {
             <div className="navbar-divider"></div>
 
             <div className="navbar-title">
-                Enterprise Reconciliation Platform
+                Financial Reconciliation Platform
             </div>
 
         </header>
