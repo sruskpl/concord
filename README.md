@@ -138,8 +138,6 @@ The database was designed using SQLAlchemy ORM with PostgreSQL and follows a nor
 ## Financial Reconciliation Workflow
 Concord models a simplified financial reconciliation process commonly followed by banking and financial operations teams. Each reconciliation session progresses through a structured workflow from transaction ingestion to exception investigation while maintaining complete operational traceability.
  
- ### Workflow Diagram
-
 ### Workflow Stages
 
 1. **Authentication**
