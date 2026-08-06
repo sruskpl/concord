@@ -4,11 +4,11 @@ A financial reconciliation platform that enables organizations to reconcile tran
 
 ## Project Overview
 
-### Concord is a full-stack financial reconciliation platform that simulates how banks and financial institutions reconcile transactions received from multiple financial systems. The application enables operators to create reconciliation sessions, upload transaction files from different financial sources, execute transaction reconciliation, investigate exceptions, and maintain a complete audit trail of operational activities.
+Concord is a full-stack financial reconciliation platform that simulates how banks and financial institutions reconcile transactions received from multiple financial systems. The application enables operators to create reconciliation sessions, upload transaction files from different financial sources, execute transaction reconciliation, investigate exceptions, and maintain a complete audit trail of operational activities.
 
-### The project was designed to replicate a real-world back-office financial workflow. It demonstrates authentication, role-based access control, relational database design, session lifecycle management, reconciliation processing, exception management, and audit logging within a modular full-stack architecture.
+The project was designed to replicate a real-world back-office financial workflow. It demonstrates authentication, role-based access control, relational database design, session lifecycle management, reconciliation processing, exception management, and audit logging within a modular full-stack architecture.
 
-### Concord currently supports three operational roles—Operator, Reviewer, and Administrator—each with dedicated dashboards and permissions, closely resembling enterprise financial systems used for transaction operations and compliance.
+Concord currently supports three operational roles—Operator, Reviewer, and Administrator—each with dedicated dashboards and permissions, closely resembling enterprise financial systems used for transaction operations and compliance.
 
 ## Key Highlights
 - Full-stack financial reconciliation platform inspired by real-world banking operations.
