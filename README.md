@@ -196,3 +196,7 @@ Although Concord provides a complete end-to-end reconciliation workflow, several
 - Expand pagination on reconciliation exceptions, sessions and audit log views for larger datasets. 
 - Introduce advanced filtering and search capabilities for sessions, audit logs, and reconciliation exceptions.
 
+## Author 
+
+Srushti Sakpal
+
