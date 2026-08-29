@@ -348,13 +348,9 @@ def reconcile(
 
             representative_transaction = transaction_group[0]
 
-    # Mark every source row as exception
-
             for transaction in transaction_group:
 
                 transaction.transaction_status = TransactionStatus.EXCEPTION
-
-    # Create ONE investigation for this business transaction
 
             if len(amounts) > 1:
 
@@ -1051,7 +1047,7 @@ def update_exception_status(
     id: int,
     status_update: ExceptionStatusUpdate,
     db: Session = Depends(get_db),
-    current_user:User=Depends(get_current_user)
+    current_user: User = Depends(get_current_user)
 ):
 
     exception = (
@@ -1070,23 +1066,36 @@ def update_exception_status(
 
     exception.status = status_update.status
 
+    if (
+        status_update.status == ExceptionStatus.UNDER_REVIEW
+        and exception.review_started_at is None
+    ):
+
+        exception.review_started_at = datetime.now()
+
     if status_update.status == ExceptionStatus.RESOLVED:
 
         exception.resolved_at = datetime.now()
+
         action = AuditAction.RESOLVE_EXCEPTION
         description = f"Resolved exception {id}"
 
     elif status_update.status == ExceptionStatus.ESCALATED:
 
         exception.resolved_at = None
+
         action = AuditAction.ESCALATE_EXCEPTION
         description = f"Escalated exception {id}"
 
     else:
 
         exception.resolved_at = None
+
         action = AuditAction.CREATE_EXCEPTION
-        description = f"Updated exception {id} to {status_update.status.value}"
+        description = (
+            f"Updated exception {id} "
+            f"to {status_update.status.value}"
+        )
 
     audit = AuditLog(
         session_id=exception.transaction.upload.session_id,
@@ -1271,7 +1280,7 @@ def reviewer_reports(
             func.extract(
                 "epoch",
                 ReconciliationException.resolved_at
-                - ReconciliationException.created_at
+                - ReconciliationException.review_started_at
             )
 
         )
@@ -1288,6 +1297,10 @@ def reviewer_reports(
     .filter(
         ReconciliationException.status ==
         ExceptionStatus.RESOLVED
+    )
+
+    .filter(
+        ReconciliationException.review_started_at.isnot(None)
     )
 
     .scalar()

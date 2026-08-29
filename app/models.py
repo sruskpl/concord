@@ -131,14 +131,15 @@ class ExceptionSeverity(str, Enum):
 class ReconciliationException(Base):
     __tablename__ = "reconciliation_exceptions"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key = True, autoincrement = True)
-    transaction_id: Mapped[int] = mapped_column(ForeignKey("transactions.id"), nullable = False)
-    exception_type: Mapped[ExceptionType] = mapped_column(SQLEnum(ExceptionType), nullable = False)
-    description: Mapped[str] = mapped_column(Text, nullable = False)
-    status: Mapped[ExceptionStatus] = mapped_column(SQLEnum(ExceptionStatus), default=ExceptionStatus.OPEN, nullable = False)
-    created_at: Mapped[datetime] = mapped_column(DateTime, server_default = func.now())
-    resolved_at: Mapped[datetime | None] = mapped_column(DateTime, nullable = True)
-    severity: Mapped[ExceptionSeverity] = mapped_column(SQLEnum(ExceptionSeverity), default=ExceptionSeverity.MEDIUM, nullable = False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    transaction_id: Mapped[int] = mapped_column(ForeignKey("transactions.id"), nullable=False)
+    exception_type: Mapped[ExceptionType] = mapped_column(SQLEnum(ExceptionType), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    status: Mapped[ExceptionStatus] = mapped_column(SQLEnum(ExceptionStatus), default=ExceptionStatus.OPEN, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    review_started_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    resolved_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    severity: Mapped[ExceptionSeverity] = mapped_column(SQLEnum(ExceptionSeverity), default=ExceptionSeverity.MEDIUM, nullable=False)
     transaction = relationship("Transaction")
 
 class AuditAction(str, Enum):

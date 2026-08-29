@@ -16,11 +16,11 @@ function ExceptionDetails() {
 
     useEffect(() => {
 
-        fetchException();
+        openException();
 
     }, []);
 
-    async function fetchException() {
+    async function openException() {
 
     const response = await fetch(
 
@@ -28,7 +28,7 @@ function ExceptionDetails() {
 
         {
 
-            headers:{
+            headers: {
 
                 Authorization:
                     `Bearer ${localStorage.getItem("access_token")}`
@@ -41,8 +41,71 @@ function ExceptionDetails() {
 
     const data = await response.json();
 
-    setException(data);
+    if (!response.ok) {
 
+        alert("Unable to load exception.");
+
+        return;
+
+    }
+
+    if (data.status === "OPEN") {
+
+        const statusResponse = await fetch(
+
+            `http://localhost:5000/exceptions/${id}/status`,
+
+            {
+
+                method: "PATCH",
+
+                headers: {
+
+                    "Content-Type": "application/json",
+
+                    Authorization:
+                        `Bearer ${localStorage.getItem("access_token")}`
+
+                },
+
+                body: JSON.stringify({
+
+                    status: "UNDER REVIEW"
+
+                })
+
+            }
+
+        );
+
+        if (!statusResponse.ok) {
+
+            alert("Unable to start exception review.");
+
+            return;
+
+        }
+
+    }
+
+    await fetchException();
+
+}
+    async function fetchException() {
+
+    const response = await fetch(
+        `http://localhost:5000/exceptions/${id}`,
+        {
+            headers:{
+                Authorization:
+                    `Bearer ${localStorage.getItem("access_token")}`
+            }
+        }
+    );
+
+    const data = await response.json();
+
+    setException(data);
 }
 
     async function addComment(event){
