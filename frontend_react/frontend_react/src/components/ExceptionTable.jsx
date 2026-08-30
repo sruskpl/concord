@@ -14,6 +14,22 @@ function ExceptionTable({
 
     const navigate = useNavigate();
 
+    const sortedExceptions = [...exceptions].sort((a, b) => {
+
+    const statusOrder = {
+        "UNDER REVIEW": 1,
+        OPEN: 2,
+        RESOLVED: 3,
+        ESCALATED: 4
+    };
+
+    return (
+        (statusOrder[a.status] || 99) -
+        (statusOrder[b.status] || 99)
+    );
+
+    });
+
     function getStatusClass(status) {
 
         switch (status) {
@@ -34,25 +50,28 @@ function ExceptionTable({
 
     }
 
-    function getSeverityClass(severity) {
+    function getStatusClass(status) {
 
-        switch (severity) {
+    switch (status) {
 
-            case "HIGH":
-                return "severity-high";
+        case "OPEN":
+            return "status-open";
 
-            case "MEDIUM":
-                return "severity-medium";
+        case "UNDER REVIEW":
+            return "status-under-review";
 
-            case "LOW":
-                return "severity-low";
+        case "RESOLVED":
+            return "status-resolved";
 
-            default:
-                return "";
+        case "ESCALATED":
+            return "status-escalated";
 
-        }
+        default:
+            return "";
 
     }
+
+}
 
     return (
 
@@ -116,7 +135,7 @@ function ExceptionTable({
 
                 <tbody>
 
-                    {exceptions.map((exception) => (
+                    {sortedExceptions.map((exception) => (
 
                         <tr key={exception.id}>
 
@@ -127,7 +146,7 @@ function ExceptionTable({
                             <td>
 
 <span
-className={`status-pill ${exception.status.toLowerCase()}`}
+    className={`status-pill ${getStatusClass(exception.status)}`}
 >
 
 {exception.status}
@@ -172,4 +191,4 @@ className={`severity-pill ${exception.severity.toLowerCase()}`}
 
 }
 
-export default ExceptionTable;
+export default ExceptionTable;  

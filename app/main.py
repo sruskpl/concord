@@ -192,7 +192,9 @@ def upload_file(
 
             valid_rows += 1
 
-        except Exception:
+        except Exception as error:
+
+            print("CSV validation error:", error)
 
             invalid_rows += 1
 
@@ -292,11 +294,32 @@ def reconcile(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    
-    transactions = db.query(Transaction).join(FileUpload).filter(
-        FileUpload.session_id == session_id
-    ).all()
-    
+
+    transactions = (
+        db.query(Transaction)
+        .join(FileUpload)
+        .filter(
+            FileUpload.session_id == session_id
+        )
+        .all()
+    )
+
+    session = (
+        db.query(ReconciliationSession)
+        .filter(
+            ReconciliationSession.id == session_id
+        )
+        .first()
+    )
+
+    if session is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Session not found"
+        )
+
+    # Group transactions by transaction reference
+
     grouped_transactions = {}
 
     for transaction in transactions:
@@ -304,23 +327,63 @@ def reconcile(
         reference = transaction.transaction_reference
 
         if reference not in grouped_transactions:
+
             grouped_transactions[reference] = []
 
-        grouped_transactions[reference].append(transaction)
+        grouped_transactions[reference].append(
+            transaction
+        )
 
     total_matches = 0
     total_exceptions = 0
 
-    session = (
-    db.query(ReconciliationSession)
-    .filter(ReconciliationSession.id == session_id)
-    .first()
-    )
+    # All four sources that should be present
 
-    if session is None:
-        raise HTTPException(404, "Session not found")
+    required_sources = {
+        SourceType.BANK,
+        SourceType.MERCHANT,
+        SourceType.CARD_NETWORK,
+        SourceType.INTERNAL_LEDGER
+    }
+
+    # Check every transaction reference
 
     for reference, transaction_group in grouped_transactions.items():
+
+        # --------------------------------------------------
+        # 1. CHECK FOR MISSING AND DUPLICATE RECORDS
+        # --------------------------------------------------
+
+        source_counts = {}
+
+        for transaction in transaction_group:
+
+            source = transaction.source
+
+            if source not in source_counts:
+
+                source_counts[source] = 0
+
+            source_counts[source] += 1
+
+        missing_sources = (
+            required_sources
+            - set(source_counts.keys())
+        )
+
+        duplicate_sources = [
+
+            source
+
+            for source, count
+            in source_counts.items()
+
+            if count > 1
+        ]
+
+        # --------------------------------------------------
+        # 2. CHECK AMOUNT, CURRENCY AND DATE
+        # --------------------------------------------------
 
         amounts = {
             transaction.amount
@@ -337,83 +400,214 @@ def reconcile(
             for transaction in transaction_group
         }
 
-        if len(amounts) == 1 and len(currencies) == 1 and len(dates) == 1:
+        has_exception = False
+
+        # --------------------------------------------------
+        # 3. MARK TRANSACTIONS AS EXCEPTION IF REQUIRED
+        # --------------------------------------------------
+
+        if (
+            missing_sources
+            or duplicate_sources
+            or len(amounts) > 1
+            or len(currencies) > 1
+            or len(dates) > 1
+        ):
+
+            has_exception = True
 
             for transaction in transaction_group:
-                transaction.transaction_status = TransactionStatus.MATCHED
 
-            total_matches += 1
+                transaction.transaction_status = (
+                    TransactionStatus.EXCEPTION
+                )
 
         else:
 
-            representative_transaction = transaction_group[0]
-
             for transaction in transaction_group:
 
-                transaction.transaction_status = TransactionStatus.EXCEPTION
-
-            if len(amounts) > 1:
-
-                db.add(
-
-                    ReconciliationException(
-
-                        transaction_id=representative_transaction.id,
-
-                        exception_type=ExceptionType.AMOUNT_MISMATCH,
-
-                        description="Amount mismatch across sources."
-                    )
+                transaction.transaction_status = (
+                    TransactionStatus.MATCHED
                 )
 
-            if len(currencies) > 1:
+            total_matches += 1
 
-                db.add(
+        # --------------------------------------------------
+        # 4. CREATE MISSING RECORD EXCEPTIONS
+        # --------------------------------------------------
 
-                    ReconciliationException(
+        representative_transaction = (
+            transaction_group[0]
+        )
 
-                        transaction_id=representative_transaction.id,
+        for source in missing_sources:
 
-                        exception_type=ExceptionType.CURRENCY_MISMATCH,
+            db.add(
 
-                        description="Currency mismatch across sources."
-                    )
+                ReconciliationException(
+
+                    transaction_id=
+                        representative_transaction.id,
+
+                    exception_type=
+                        ExceptionType.MISSING_RECORD,
+
+                    description=
+                        f"Missing {source.value} record.",
+
+                    severity=
+                        ExceptionSeverity.HIGH
                 )
-
-            if len(dates) > 1:
-
-                db.add(
-
-                    ReconciliationException(
-
-                        transaction_id=representative_transaction.id,
-
-                        exception_type=ExceptionType.DATE_MISMATCH,
-
-                        description="Date mismatch across sources."
-                    )
-                )
+            )
 
             total_exceptions += 1
 
+        # --------------------------------------------------
+        # 5. CREATE DUPLICATE RECORD EXCEPTIONS
+        # --------------------------------------------------
+
+        for source in duplicate_sources:
+
+            db.add(
+
+                ReconciliationException(
+
+                    transaction_id=
+                        representative_transaction.id,
+
+                    exception_type=
+                        ExceptionType.DUPLICATE_RECORD,
+
+                    description=
+                        f"Duplicate {source.value} record.",
+
+                    severity=
+                        ExceptionSeverity.HIGH
+                )
+            )
+
+            total_exceptions += 1
+
+        # --------------------------------------------------
+        # 6. CREATE AMOUNT MISMATCH EXCEPTION
+        # --------------------------------------------------
+
+        if len(amounts) > 1:
+
+            db.add(
+
+                ReconciliationException(
+
+                    transaction_id=
+                        representative_transaction.id,
+
+                    exception_type=
+                        ExceptionType.AMOUNT_MISMATCH,
+
+                    description=
+                        "Amount mismatch across sources.",
+
+                    severity=
+                        ExceptionSeverity.MEDIUM
+                )
+            )
+
+            total_exceptions += 1
+
+        # --------------------------------------------------
+        # 7. CREATE CURRENCY MISMATCH EXCEPTION
+        # --------------------------------------------------
+
+        if len(currencies) > 1:
+
+            db.add(
+
+                ReconciliationException(
+
+                    transaction_id=
+                        representative_transaction.id,
+
+                    exception_type=
+                        ExceptionType.CURRENCY_MISMATCH,
+
+                    description=
+                        "Currency mismatch across sources.",
+
+                    severity=
+                        ExceptionSeverity.MEDIUM
+                )
+            )
+
+            total_exceptions += 1
+
+        # --------------------------------------------------
+        # 8. CREATE DATE MISMATCH EXCEPTION
+        # --------------------------------------------------
+
+        if len(dates) > 1:
+
+            db.add(
+
+                ReconciliationException(
+
+                    transaction_id=
+                        representative_transaction.id,
+
+                    exception_type=
+                        ExceptionType.DATE_MISMATCH,
+
+                    description=
+                        "Date mismatch across sources.",
+
+                    severity=
+                        ExceptionSeverity.LOW
+                )
+            )
+
+            total_exceptions += 1
+
+    # --------------------------------------------------
+    # 9. UPDATE RECONCILIATION SESSION
+    # --------------------------------------------------
+
     session.matched_transactions = total_matches
+
     session.exception_count = total_exceptions
+
     session.status = SessionStatus.COMPLETED
 
+    # --------------------------------------------------
+    # 10. CREATE AUDIT LOG
+    # --------------------------------------------------
+
     audit = AuditLog(
-    session_id=session_id,
-    created_by=current_user["employee_id"],
-    action=AuditAction.RUN_RECONCILIATION,
-    description="Reconciliation completed."
+
+        session_id=session_id,
+
+        created_by=current_user["employee_id"],
+
+        action=AuditAction.RUN_RECONCILIATION,
+
+        description="Reconciliation completed."
+
     )
 
     db.add(audit)
 
+    # --------------------------------------------------
+    # 11. SAVE EVERYTHING
+    # --------------------------------------------------
+
     db.commit()
 
     return {
-        "matched_transactions": total_matches,
-        "exception_transactions": total_exceptions
+
+        "matched_transactions":
+            total_matches,
+
+        "exception_transactions":
+            total_exceptions
+
     }
 
 @app.post(
@@ -549,7 +743,9 @@ def validate_upload(
 
             valid_rows += 1
 
-        except Exception:
+        except Exception as error:
+
+            print("CSV validation error:", error)
 
             invalid_rows += 1
 
@@ -730,7 +926,8 @@ def get_dashboard(
     .filter(
         FileUpload.session_id == current_session.id,
         ReconciliationException.status == ExceptionStatus.RESOLVED,
-        ReconciliationException.resolved_at.isnot(None)
+        ReconciliationException.resolved_at.isnot(None),
+        ReconciliationException.review_started_at.isnot(None)
     )
 
     .all()
@@ -746,7 +943,7 @@ def get_dashboard(
 
             total_minutes += (
                 exception.resolved_at -
-                exception.created_at
+                exception.review_started_at
             ).total_seconds() / 60
 
         average_resolution_time = round(
@@ -933,6 +1130,17 @@ def get_exception(
             status_code=404,
             detail="Exception not found."
         )
+
+    if (
+    exception.status == ExceptionStatus.OPEN
+    and exception.review_started_at is None
+    ):
+
+        exception.status = ExceptionStatus.UNDER_REVIEW
+        exception.review_started_at = datetime.now()
+
+        db.commit()
+        db.refresh(exception)
 
     transaction = (
 

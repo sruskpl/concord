@@ -14,9 +14,14 @@ function SessionCard(props) {
             </div>
 
             <div className="detail-row">
-                <span>Session Status</span>
-                <strong>{props.status || "NOT STARTED"}</strong>
-            </div>
+    <span>Session Status</span>
+
+    <strong>
+        {props.status === "COMPLETED"
+            ? "NOT STARTED"
+            : props.status || "NOT STARTED"}
+    </strong>
+</div>
 
             <div className="detail-row">
                 <span>Today's Sessions</span>
@@ -78,45 +83,65 @@ function SessionCard(props) {
 
 </div>
             <div className="source-container">
-            <div className="source-card">
-            <p>Uploaded Sources:</p>
-            <ul>
-                {(props.uploadedSources ?? []).map((source) => (
+
+    <div className="source-card">
+
+        <p>Uploaded Sources:</p>
+
+        <ul>
+
+            {props.status === "COMPLETED" ? (
+
+                <li>Start a new reconciliation session.</li>
+
+            ) : (
+
+                (props.uploadedSources ?? []).map((source) => (
 
                     <li key={source}>
                         {source}
                     </li>
-                ))}
-            </ul>
-            </div>
-            
-            <div className="source-card">
-            <p>Missing Sources:</p>
-            <ul>
 
-{!props.sessionStarted ? (
+                ))
 
-    <li>Start a reconciliation session.</li>
+            )}
 
-) : props.missingSources.length === 0 ? (
+        </ul>
 
-    <li>✅ No Missing Sources</li>
+    </div>
 
-) : (
 
-    props.missingSources.map((source) => (
+    <div className="source-card">
 
-        <li key={source}>
-            {source}
-        </li>
+        <p>Missing Sources:</p>
 
-    ))
+        <ul>
 
-)}
+            {!props.sessionStarted || props.status === "COMPLETED" ? (
 
-</ul>
-            </div>
-            </div>
+                <li>Start a reconciliation session.</li>
+
+            ) : props.missingSources.length === 0 ? (
+
+                <li>✅ No Missing Sources</li>
+
+            ) : (
+
+                props.missingSources.map((source) => (
+
+                    <li key={source}>
+                        {source}
+                    </li>
+
+                ))
+
+            )}
+
+        </ul>
+
+    </div>
+
+</div>
         </section>
     );
 }

@@ -139,7 +139,7 @@ class ReconciliationException(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
     review_started_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     resolved_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
-    severity: Mapped[ExceptionSeverity] = mapped_column(SQLEnum(ExceptionSeverity), default=ExceptionSeverity.MEDIUM, nullable=False)
+    severity: Mapped[ExceptionSeverity] = mapped_column(SQLEnum(ExceptionSeverity), nullable=False)
     transaction = relationship("Transaction")
 
 class AuditAction(str, Enum):

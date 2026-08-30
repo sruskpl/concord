@@ -81,7 +81,7 @@ function AdminAuditLogs() {
 
                             <td>
 
-👤 {log.employee_id}
+👤 {log.created_by}
 
 </td>
 
