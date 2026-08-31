@@ -168,6 +168,7 @@ Vite will display the frontend URL in the terminal, typically:
 
 http://localhost:5173
 
+
 ## System Architecture
 
 Concord follows a modular client-server architecture designed around a financial reconciliation workflow.
