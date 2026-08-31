@@ -50,6 +50,124 @@ Concord currently supports three operational roles—Operator, Reviewer, and Adm
 ### APIs
 - RESTful APIs
 
+## Installation and Setup
+
+Follow the steps below to run Concord locally.
+
+### Prerequisites
+
+Make sure the following are installed on your system:
+
+- Python 3.10 or higher
+- Node.js and npm
+- PostgreSQL
+- pgAdmin 4
+- Git
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/sruskpl/concord.git
+cd "Enterprise Reconciliation Platform"
+```
+
+### 2. Backend Setup
+
+Navigate to the backend directory:
+
+```bash
+cd app
+```
+
+Create a Python virtual environment:
+
+```bash
+python -m venv venv
+```
+
+Activate the virtual environment on Windows: 
+
+```bash
+venv\Scripts\activate
+```
+
+Install the required Python dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Configure Environment Variables
+
+Create a `.env` file in the project root directory.
+
+Add the required environment variables:
+
+```env
+DATABASE_URL=your_postgresql_connection_string
+SECRET_KEY=your_jwt_secret_key
+```
+
+Replace the placeholders with your own PostgreSQL database URL and a secure secret key.
+
+**Important:** Never commit the `.env` file or real credentials to GitHub.
+
+### 4. Database Setup
+
+Open **pgAdmin 4** and connect to your local PostgreSQL server.
+
+Create a new database named:
+
+```text
+concord
+```
+
+Update the DATABASE_URL in the .env file in the project root with your PostgreSQL connection details:
+
+```env
+DATABASE_URL=postgresql://<username>:<password>@localhost:5432/concord
+```
+
+The application uses SQLAlchemy ORM to interact with the PostgreSQL database.
+
+
+### 5. Running the project
+
+#### Start the backend: 
+
+```bash
+python -m uvicorn main:app --reload --port 5000
+```
+
+Run this from the app directory.
+
+The FastAPI backend will run at:
+
+http://localhost:5000
+
+#### Start the frontend:
+
+Open a new terminal and navigate to the React frontend directory:
+
+```bash
+cd frontend_react/frontend_react
+```
+
+Install the frontend dependencies:
+
+```bash
+npm install
+```
+
+Start the React development server:
+
+```bash
+npm run dev
+```
+
+Vite will display the frontend URL in the terminal, typically:
+
+http://localhost:5173
+
 ## System Architecture
 
 Concord follows a modular client-server architecture designed around a financial reconciliation workflow.
