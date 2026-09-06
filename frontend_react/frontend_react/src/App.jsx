@@ -16,6 +16,7 @@ import AdminReports from "./pages/AdminReports";
 import Auth from "./pages/Auth";
 import Concord from "./pages/Concord";
 import Home from "./pages/Home";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 
 function App() {
 
@@ -24,74 +25,120 @@ function App() {
             <Routes>
 
                 <Route
-                    path="/operator"
-                    element={<OperatorDashboard />}
-                />
+    path="/operator"
+    element={
+        <ProtectedRoutes allowedRoles={["operator"]}>
+            <OperatorDashboard />
+        </ProtectedRoutes>
+    }
+/>
 
                 <Route
     path="/reviewer"
-    element={<ReviewerDashboard />}
+    element={
+        <ProtectedRoutes allowedRoles={["reviewer"]}>
+            <ReviewerDashboard />
+        </ProtectedRoutes>
+    }
 />
 
                 <Route
-                    path="/reviewer/exception/:id"
-                    element={<ExceptionDetails />}
-                />
+    path="/reviewer/exception/:id"
+    element={
+        <ProtectedRoutes allowedRoles={["reviewer"]}>
+            <ExceptionDetails />
+        </ProtectedRoutes>
+    }
+/>
 
                 <Route
     path="/operator/audit"
-    element={<OperatorAuditLogs />}
- />
+    element={
+        <ProtectedRoutes allowedRoles={["operator"]}>
+            <OperatorAuditLogs />
+        </ProtectedRoutes>
+    }
+/>
 
 <Route
     path="/reviewer/audit"
-    element={<ReviewerAuditLogs />}
- />
+    element={
+        <ProtectedRoutes allowedRoles={["reviewer"]}>
+            <ReviewerAuditLogs />
+        </ProtectedRoutes>
+    }
+/>
 
 <Route
     path="/admin/audit"
-    element={<AdminAuditLogs />}
- />
-
-                <Route path="/reports" element={<Reports />} />
-
-                <Route path="/admin" element={<AdminDashboard/>}/>
+    element={
+        <ProtectedRoutes allowedRoles={["admin"]}>
+            <AdminAuditLogs />
+        </ProtectedRoutes>
+    }
+/>
 
                 <Route
+    path="/reports"
+    element={
+        <ProtectedRoutes allowedRoles={["reviewer"]}>
+            <Reports />
+        </ProtectedRoutes>
+    }
+/>
 
-path="/admin/users"
+                <Route
+    path="/admin"
+    element={
+        <ProtectedRoutes allowedRoles={["admin"]}>
+            <AdminDashboard />
+        </ProtectedRoutes>
+    }
+/>
 
-element={<AdminUsers />}
-
+                <Route
+    path="/admin/users"
+    element={
+        <ProtectedRoutes allowedRoles={["admin"]}>
+            <AdminUsers />
+        </ProtectedRoutes>
+    }
 />
 
 <Route
-
-path="/admin/reports"
-
-element={<AdminReports />}
-
+    path="/admin/reports"
+    element={
+        <ProtectedRoutes allowedRoles={["admin"]}>
+            <AdminReports />
+        </ProtectedRoutes>
+    }
 />
 
                 <Route
-                    path="/reviewer/exceptions"
-                    element={<ExceptionQueue />}
-                />
+    path="/reviewer/exceptions"
+    element={
+        <ProtectedRoutes allowedRoles={["reviewer"]}>
+            <ExceptionQueue />
+        </ProtectedRoutes>
+    }
+/>
 
                 <Route
-
-                    path="/operator/sessions"
-
-                    element={<OperatorSessions />}
-
-                />
+    path="/operator/sessions"
+    element={
+        <ProtectedRoutes allowedRoles={["operator"]}>
+            <OperatorSessions />
+        </ProtectedRoutes>
+    }
+/>
 
                 <Route
-
-path="/reviewer/reports"
-
-element={<Reports/>}
-
+    path="/reviewer/reports"
+    element={
+        <ProtectedRoutes allowedRoles={["reviewer"]}>
+            <Reports />
+        </ProtectedRoutes>
+    }
 />
 
 <Route
