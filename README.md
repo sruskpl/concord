@@ -53,18 +53,18 @@ Concord currently supports three operational roles—Operator, Reviewer, and Adm
 ## Screenshots
 
 ### Landing Page
-![Concord Landing Page](screenshots/landing-page.png)
+![Concord Landing Page](frontend_react/frontend_react/public/images/landing-page.png)
 
 ### User Registration
-![Concord Registration Page](screenshots/register-page.png)
+![Concord Registration Page](frontend_react/frontend_react/public/images/register-page.png)
 
 ### Operator Dashboard
-[Concord Operator Dashboard](screenshots/operator-dashboard.png)
+[Concord Operator Dashboard](frontend_react/frontend_react/public/images/operator-dashboard.png)
 
 ### Exception Investigation Comments
 | --- | --- |
-| ![Exception Investigation](screenshots/exception-investigation-comments-1.png) | 
-![Investigation Comments](screenshots/exception-investigation-comments-2.png) |
+| ![Exception Investigation](frontend_react/frontend_react/public/images/exception-investigation-comments-1.png) | 
+![Investigation Comments](frontend_react/frontend_react/public/images/exception-investigation-comments-2.png) |
 
 ## Installation and Setup
 
