@@ -50,6 +50,22 @@ Concord currently supports three operational roles—Operator, Reviewer, and Adm
 ### APIs
 - RESTful APIs
 
+## Screenshots
+
+### Landing Page
+![Concord Landing Page](screenshots/landing-page.png)
+
+### User Registration
+![Concord Registration Page](screenshots/register-page.png)
+
+### Operator Dashboard
+[Concord Operator Dashboard](screenshots/operator-dashboard.png)
+
+### Exception Investigation Comments
+| --- | --- |
+| ![Exception Investigation](screenshots/exception-investigation-comments-1.png) | 
+![Investigation Comments](screenshots/exception-investigation-comments-2.png) |
+
 ## Installation and Setup
 
 Follow the steps below to run Concord locally.
