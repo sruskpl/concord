@@ -138,9 +138,8 @@ function Auth() {
         }
 
         else {
-
-            alert(data.detail);
-
+            console.log("Login error:", data);
+            alert(JSON.stringify(data.detail, null, 2));
         }
 
     }
