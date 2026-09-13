@@ -55,8 +55,10 @@ Concord currently supports three operational roles—Operator, Reviewer, and Adm
 ### Landing Page
 ![Concord Landing Page](frontend_react/frontend_react/public/images/landing-page.png)
 
+
 ### User Registration
 ![Concord Registration Page](frontend_react/frontend_react/public/images/register-page.png)
+
 
 ### Why Concord
 ![Why Concord 1](frontend_react/frontend_react/public/images/why-concord-1.png)
@@ -71,36 +73,46 @@ Concord currently supports three operational roles—Operator, Reviewer, and Adm
 
 ![Concord Operator Dashboard 3](frontend_react/frontend_react/public/images/operator-dashboard-3.png)
 
+
 ### Operator Sessions
 ![Operator Sessions](frontend_react/frontend_react/public/images/operator-sessions.png)
+
 
 ### Operator Audit Logs
 ![Operator Audit Logs](frontend_react/frontend_react/public/images/operator-audit-logs.png)
 
+
 ### Reviewer Dashboard
 ![Reviewer Dashboard](frontend_react/frontend_react/public/images/reviewer-dashboard.png)
 
+
 ### Exception Queue
 ![Exception Queue](frontend_react/frontend_react/public/images/exception-queue.png)
+
 
 ### Exception Details
 ![Exception Details 1](frontend_react/frontend_react/public/images/exception-details-1.png)
 
 ![Exception Details 2](frontend_react/frontend_react/public/images/exception-details-2.png)
 
+
 ### Reviewer Analytics
 ![Reviewer Analytics](frontend_react/frontend_react/public/images/reviewer-reports.png)
 
+
 ### Reviewer Audit Logs
 ![Reviewer Audit Logs](frontend_react/frontend_react/public/images/operator-audit-logs.png)
+
 
 ### Exception Investigation Comments
 ![Exception Investigation](frontend_react/frontend_react/public/images/exception-investigation-comments-1.png)
 
 ![Investigation Comments](frontend_react/frontend_react/public/images/exception-investigation-comments-2.png) 
 
+
 ### Admin Dashboard
 ![Admin Dashboard 1](frontend_react/frontend_react/public/images/admin-dashboard-1.png)
+
 
 ## Installation and Setup
 
