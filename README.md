@@ -80,6 +80,14 @@ Concord currently supports three operational roles—Operator, Reviewer, and Adm
 ### Reviewer Dashboard
 ![Reviewer Dashboard](frontend_react/frontend_react/public/images/reviewer-dashboard.png)
 
+### Exception Queue
+![Exception Queue](frontend_react/frontend_react/public/images/exception-queue.png)
+
+### Exception Details
+![Exception Details 1](frontend_react/frontend_react/public/images/exception-details-1.png)
+
+![Exception Details 2](frontend_react/frontend_react/public/images/exception-details-2.png)
+
 ### Reviewer Audit Logs
 ![Reviewer Audit Logs](frontend_react/frontend_react/public/images/operator-audit-logs.png)
 
