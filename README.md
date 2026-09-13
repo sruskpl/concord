@@ -70,7 +70,7 @@ Concord currently supports three operational roles—Operator, Reviewer, and Adm
 ![Concord Operator Dashboard 2](frontend_react/frontend_react/public/images/operator-dashboard-2.png)
 
 ### Operator Sessions
-![Operator Sessions] (frontend_react/frontend_react/public/images/operator-sessions.png)
+![Operator Sessions](frontend_react/frontend_react/public/images/operator-sessions.png)
 
 ### Exception Investigation Comments
 ![Exception Investigation](frontend_react/frontend_react/public/images/exception-investigation-comments-1.png)
