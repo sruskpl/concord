@@ -88,6 +88,11 @@ Concord currently supports three operational roles—Operator, Reviewer, and Adm
 
 ![Investigation Comments](frontend_react/frontend_react/public/images/exception-investigation-comments-2.png) 
 
+### Admin Dashboard
+![Admin Dashboard 1](frontend_react/frontend_react/public/images/admin-dashboard-1.png)
+
+![Admin Dashboard 2](frontend_react/frontend_react/public/images/admin-dashboard-2.png)
+
 ## Installation and Setup
 
 Follow the steps below to run Concord locally.
